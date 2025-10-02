@@ -1,0 +1,2285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YGY Casino - Premium Slots</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #0a0e27;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Hamburger Menu Button */
+        .menu-toggle {
+            display: none;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            font-size: 1.5em;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .menu-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.5);
+        }
+
+        /* Sidebar Overlay for Mobile */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 998;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: linear-gradient(180deg, #1a1f3a 0%, #0f1629 100%);
+            margin: 5% auto;
+            padding: 0;
+            border: 3px solid #ffd700;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            animation: slideDown 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px 30px;
+            border-radius: 17px 17px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            color: white;
+            font-size: 1.8em;
+        }
+
+        .close {
+            color: white;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close:hover {
+            color: #ffd700;
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            color: #8892b8;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            background: #1a2142;
+            border: 2px solid #2a3150;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .quick-amounts {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .quick-amount-btn {
+            padding: 12px;
+            background: #2a3150;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            color: #ffd700;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quick-amount-btn:hover {
+            background: #667eea;
+            transform: scale(1.05);
+        }
+
+        .modal-footer {
+            padding: 20px 30px;
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+        }
+
+        .modal-btn {
+            padding: 15px 40px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .modal-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
+        }
+
+        .modal-btn-secondary {
+            background: #2a3150;
+            color: white;
+        }
+
+        .modal-btn-secondary:hover {
+            background: #3a4160;
+        }
+
+        /* Header Casino */
+        .casino-header {
+            background: linear-gradient(180deg, #1a1f3a 0%, #0f1629 100%);
+            padding: 15px 20px;
+            border-bottom: 3px solid #ffd700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            cursor: pointer;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-balance {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 8px 15px;
+            border-radius: 25px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+        }
+
+        .user-balance:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3em;
+            border: 3px solid #ffd700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .user-avatar:hover {
+            transform: rotate(360deg);
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            background: #151b33;
+            display: flex;
+            padding: 0 20px;
+            border-bottom: 2px solid #2a3150;
+            overflow-x: auto;
+            position: sticky;
+            top: 70px;
+            z-index: 99;
+        }
+
+        .nav-tabs::-webkit-scrollbar {
+            height: 5px;
+        }
+
+        .nav-tabs::-webkit-scrollbar-track {
+            background: #0f1629;
+        }
+
+        .nav-tabs::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 10px;
+        }
+
+        .nav-tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            color: #8892b8;
+            font-weight: bold;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            font-size: 0.9em;
+        }
+
+        .nav-tab:hover {
+            color: #ffd700;
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .nav-tab.active {
+            color: #ffd700;
+            border-bottom-color: #ffd700;
+        }
+
+        /* Main Container */
+        .main-container {
+            display: grid;
+            grid-template-columns: 250px 1fr 300px;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+
+        /* Sidebar Left */
+        .sidebar-left {
+            background: #151b33;
+            border-radius: 15px;
+            padding: 20px;
+            height: fit-content;
+            position: sticky;
+            top: 150px;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-section {
+            margin-bottom: 30px;
+        }
+
+        .menu-title {
+            color: #ffd700;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .menu-item {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            background: #1a2142;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .menu-item:hover {
+            background: #222c52;
+            border-left-color: #ffd700;
+            transform: translateX(5px);
+        }
+
+        .menu-item.active {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-left-color: #ffd700;
+        }
+
+        /* Game Area */
+        .game-area {
+            background: linear-gradient(180deg, #1a1f3a 0%, #0f1629 100%);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .game-title {
+            font-size: 1.5em;
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .game-info-btn {
+            background: #2a3150;
+            border: 2px solid #667eea;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+        }
+
+        .game-info-btn:hover {
+            background: #667eea;
+            transform: scale(1.05);
+        }
+
+        .jackpot-banner {
+            background: linear-gradient(135deg, #ff0844 0%, #ffb199 100%);
+            padding: 15px 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 0 30px rgba(255, 8, 68, 0.5);
+            animation: jackpotGlow 2s ease-in-out infinite;
+            cursor: pointer;
+        }
+
+        @keyframes jackpotGlow {
+            0%, 100% { box-shadow: 0 0 30px rgba(255, 8, 68, 0.5); }
+            50% { box-shadow: 0 0 50px rgba(255, 8, 68, 0.8); }
+        }
+
+        .jackpot-amount {
+            font-size: 2em;
+            font-weight: bold;
+            text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Slot Machine */
+        .slot-container {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 30px 20px;
+            border-radius: 20px;
+            position: relative;
+            box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+        }
+
+        .slot-display {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .slot-reel {
+            background: linear-gradient(180deg, #ffffff 0%, #f0f0f0 100%);
+            width: 100px;
+            height: 100px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5em;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(0, 0, 0, 0.1);
+            border: 4px solid #ffd700;
+            position: relative;
+        }
+
+        .slot-reel::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid #ff0844;
+        }
+
+        .slot-reel.spinning {
+            animation: reelSpin 0.1s linear infinite;
+        }
+
+        @keyframes reelSpin {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-10px); }
+        }
+
+        .slot-reel.winning {
+            animation: winPulse 0.5s ease-in-out infinite;
+            border-color: #ff0844;
+            box-shadow: 0 0 40px rgba(255, 8, 68, 0.8);
+        }
+
+        @keyframes winPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Bet Controls */
+        .bet-controls {
+            background: #1a2142;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .bet-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .bet-label {
+            color: #8892b8;
+            font-weight: bold;
+            font-size: 1em;
+        }
+
+        .bet-amount {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .bet-button {
+            background: #2a3150;
+            border: 2px solid #667eea;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            min-width: 40px;
+        }
+
+        .bet-button:hover {
+            background: #667eea;
+            transform: scale(1.1);
+        }
+
+        .bet-button:active {
+            transform: scale(0.95);
+        }
+
+        .bet-input {
+            background: #0f1629;
+            border: 2px solid #2a3150;
+            color: #ffd700;
+            padding: 8px 12px;
+            border-radius: 8px;
+            width: 120px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1em;
+        }
+
+        .preset-bets {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .preset-bet {
+            background: #2a3150;
+            border: 2px solid #667eea;
+            color: #ffd700;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+        .preset-bet:hover {
+            background: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.5);
+        }
+
+        .preset-bet:active {
+            transform: translateY(0);
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .action-btn {
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .action-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .action-btn:active {
+            transform: scale(0.95);
+        }
+
+        .btn-spin {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            grid-column: span 3;
+            font-size: 1.3em;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(240, 147, 251, 0.4);
+        }
+
+        .btn-spin:hover {
+            box-shadow: 0 15px 40px rgba(240, 147, 251, 0.6);
+            transform: translateY(-3px);
+        }
+
+        .btn-spin:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-auto {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-turbo {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: white;
+        }
+
+        .btn-turbo.active {
+            background: linear-gradient(135deg, #fee140 0%, #fa709a 100%);
+            box-shadow: 0 0 30px rgba(254, 225, 64, 0.8);
+        }
+
+        .btn-stop {
+            background: linear-gradient(135deg, #f44336 0%, #da190b 100%);
+            color: white;
+            animation: stopPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes stopPulse {
+            0%, 100% { 
+                box-shadow: 0 0 20px rgba(244, 67, 54, 0.5);
+            }
+            50% { 
+                box-shadow: 0 0 35px rgba(244, 67, 54, 0.9);
+                transform: scale(1.02);
+            }
+        }
+
+        .btn-stop:hover {
+            background: linear-gradient(135deg, #da190b 0%, #f44336 100%);
+        }
+
+        .btn-max {
+            background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+            color: white;
+        }
+
+        /* Auto Spin Options */
+        .auto-spin-panel {
+            background: #1a2142;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .auto-spin-panel.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        .auto-spin-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .auto-spin-option {
+            background: #2a3150;
+            border: 2px solid #667eea;
+            color: white;
+            padding: 12px 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            text-align: center;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+        }
+
+        .auto-spin-option:hover {
+            background: #667eea;
+            transform: scale(1.05);
+        }
+
+        .auto-spin-option.active {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-color: #ffd700;
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Sidebar Right */
+        .sidebar-right {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: sticky;
+            top: 150px;
+            height: fit-content;
+        }
+
+        .stats-panel {
+            background: #151b33;
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .panel-title {
+            color: #ffd700;
+            font-size: 1em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #2a3150;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #1a2142;
+        }
+
+        .stat-label {
+            color: #8892b8;
+            font-size: 0.9em;
+        }
+
+        .stat-value {
+            color: #ffd700;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .recent-wins {
+            background: #151b33;
+            border-radius: 15px;
+            padding: 20px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .recent-wins::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .recent-wins::-webkit-scrollbar-track {
+            background: #0f1629;
+            border-radius: 10px;
+        }
+
+        .recent-wins::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 10px;
+        }
+
+        .win-item {
+            background: #1a2142;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid #ffd700;
+            transition: all 0.3s ease;
+        }
+
+        .win-item:hover {
+            background: #222c52;
+            transform: translateX(5px);
+        }
+
+        .win-amount {
+            color: #4CAF50;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .win-time {
+            color: #8892b8;
+            font-size: 0.8em;
+            margin-top: 5px;
+        }
+
+        /* Result Display */
+        .result-display {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 20px;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        .result-display.jackpot {
+            background: linear-gradient(135deg, #ff0844 0%, #ffb199 100%);
+            animation: jackpotPulse 0.5s ease-in-out infinite;
+            font-size: 1.5em;
+        }
+
+        @keyframes jackpotPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Win Overlay */
+        .win-overlay {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4em;
+            color: #ffd700;
+            text-shadow: 0 0 50px rgba(255, 215, 0, 1);
+            animation: winAnimation 1.5s ease-out;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        @keyframes winAnimation {
+            0% { transform: translate(-50%, -50%) scale(0) rotate(-180deg); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.3) rotate(0deg); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 0; }
+        }
+
+        /* Paytable */
+        .paytable {
+            background: #1a2142;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .paytable-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .paytable-item {
+            background: #0f1629;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #2a3150;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .paytable-item:hover {
+            border-color: #ffd700;
+            transform: scale(1.05);
+        }
+
+        .paytable-symbol {
+            font-size: 1.8em;
+            margin-bottom: 5px;
+        }
+
+        .paytable-value {
+            color: #ffd700;
+            font-weight: bold;
+            font-size: 0.8em;
+        }
+
+        /* Notification Toast */
+        .toast {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            z-index: 2001;
+            animation: slideInRight 0.3s ease;
+            max-width: 350px;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(400px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .toast.success {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+        }
+
+        .toast.error {
+            background: linear-gradient(135deg, #f44336 0%, #da190b 100%);
+        }
+
+        .toast.info {
+            background: linear-gradient(135deg, #2196F3 0%, #0b7dda 100%);
+        }
+
+        /* History Table */
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .history-table th,
+        .history-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #2a3150;
+            font-size: 0.9em;
+        }
+
+        .history-table th {
+            background: #1a2142;
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        .history-table tr:hover {
+            background: #1a2142;
+        }
+
+        .status-win {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .status-lose {
+            color: #f44336;
+            font-weight: bold;
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive Media Queries */
+        @media (max-width: 1400px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar-left {
+                position: fixed;
+                left: -270px;
+                top: 0;
+                width: 270px;
+                height: 100vh;
+                overflow-y: auto;
+                z-index: 999;
+                border-radius: 0;
+                margin: 0;
+            }
+
+            .sidebar-left.active {
+                left: 0;
+            }
+
+            .sidebar-right {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .casino-header {
+                padding: 10px 15px;
+            }
+
+            .logo {
+                font-size: 1.2em;
+            }
+
+            .user-balance {
+                padding: 6px 12px;
+                font-size: 0.8em;
+            }
+
+            .user-avatar {
+                width: 35px;
+                height: 35px;
+                font-size: 1.1em;
+            }
+
+            .nav-tabs {
+                padding: 0 10px;
+                top: 60px;
+            }
+
+            .nav-tab {
+                padding: 10px 15px;
+                font-size: 0.85em;
+            }
+
+            .game-area {
+                padding: 15px;
+            }
+
+            .game-title {
+                font-size: 1.2em;
+            }
+
+            .jackpot-banner {
+                padding: 12px 15px;
+            }
+
+            .jackpot-amount {
+                font-size: 1.5em;
+            }
+
+            .slot-container {
+                padding: 20px 10px;
+            }
+
+            .slot-display {
+                gap: 8px;
+            }
+
+            .slot-reel {
+                width: 80px;
+                height: 80px;
+                font-size: 2.8em;
+                border: 3px solid #ffd700;
+            }
+
+            .slot-reel::before {
+                top: -6px;
+                border-left: 6px solid transparent;
+                border-right: 6px solid transparent;
+                border-top: 6px solid #ff0844;
+            }
+
+            .result-display {
+                font-size: 0.95em;
+                padding: 12px;
+                min-height: 60px;
+            }
+
+            .bet-controls {
+                padding: 12px;
+            }
+
+            .bet-label {
+                font-size: 0.9em;
+            }
+
+            .bet-button {
+                padding: 6px 12px;
+                font-size: 1em;
+            }
+
+            .bet-input {
+                width: 100px;
+                padding: 6px 10px;
+                font-size: 0.9em;
+            }
+
+            .preset-bets {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 6px;
+            }
+
+            .preset-bet {
+                padding: 8px;
+                font-size: 0.85em;
+            }
+
+            .action-buttons {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+
+            .btn-spin {
+                grid-column: span 1;
+                font-size: 1.1em;
+                padding: 15px;
+            }
+
+            .action-btn {
+                padding: 12px;
+                font-size: 0.9em;
+            }
+
+            .auto-spin-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 6px;
+            }
+
+            .auto-spin-option {
+                padding: 10px 6px;
+                font-size: 0.85em;
+            }
+
+            .paytable {
+                padding: 12px;
+            }
+
+            .paytable-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 6px;
+            }
+
+            .paytable-symbol {
+                font-size: 1.5em;
+            }
+
+            .paytable-value {
+                font-size: 0.75em;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+            }
+
+            .modal-header h2 {
+                font-size: 1.4em;
+            }
+
+            .modal-body {
+                padding: 20px;
+            }
+
+            .form-input {
+                padding: 12px;
+                font-size: 1em;
+            }
+
+            .quick-amounts {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+
+            .quick-amount-btn {
+                padding: 10px;
+                font-size: 0.9em;
+            }
+
+            .modal-btn {
+                padding: 12px 30px;
+                font-size: 1em;
+            }
+
+            .toast {
+                right: 10px;
+                left: 10px;
+                max-width: none;
+                font-size: 0.9em;
+            }
+
+            .win-overlay {
+                font-size: 3em;
+            }
+
+            .history-table th,
+            .history-table td {
+                padding: 8px;
+                font-size: 0.8em;
+            }
+
+            .sidebar-left {
+                width: 250px;
+                left: -270px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1em;
+            }
+
+            .user-balance {
+                font-size: 0.75em;
+                padding: 5px 10px;
+            }
+
+            .user-avatar {
+                width: 30px;
+                height: 30px;
+                font-size: 1em;
+                border: 2px solid #ffd700;
+            }
+
+            .nav-tab {
+                padding: 8px 12px;
+                font-size: 0.8em;
+            }
+
+            .game-title {
+                font-size: 1em;
+            }
+
+            .game-info-btn {
+                padding: 6px 12px;
+                font-size: 0.8em;
+            }
+
+            .jackpot-amount {
+                font-size: 1.2em;
+            }
+
+            .slot-reel {
+                width: 70px;
+                height: 70px;
+                font-size: 2.3em;
+            }
+
+            .result-display {
+                font-size: 0.85em;
+            }
+
+            .preset-bets {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .sidebar-left {
+                width: 230px;
+                left: -250px;
+            }
+        }
+
+        @media (orientation: landscape) and (max-height: 600px) {
+            .casino-header {
+                position: relative;
+            }
+
+            .nav-tabs {
+                position: relative;
+                top: 0;
+            }
+
+            .sidebar-left,
+            .sidebar-right {
+                position: relative;
+                top: 0;
+            }
+
+            .slot-reel {
+                width: 70px;
+                height: 70px;
+                font-size: 2.5em;
+            }
+
+            .jackpot-banner {
+                padding: 10px;
+            }
+
+            .jackpot-amount {
+                font-size: 1.3em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+    <!-- Deposit Modal -->
+    <div id="depositModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>💳 Deposit Funds</h2>
+                <span class="close" onclick="closeModal('depositModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Enter Deposit Amount</label>
+                    <input type="number" id="depositAmount" class="form-input" placeholder="Enter amount (Min: 10,000)" min="10000">
+                </div>
+                <div class="quick-amounts">
+                    <button class="quick-amount-btn" onclick="setDepositAmount(10000)">10K</button>
+                    <button class="quick-amount-btn" onclick="setDepositAmount(50000)">50K</button>
+                    <button class="quick-amount-btn" onclick="setDepositAmount(100000)">100K</button>
+                    <button class="quick-amount-btn" onclick="setDepositAmount(500000)">500K</button>
+                    <button class="quick-amount-btn" onclick="setDepositAmount(1000000)">1M</button>
+                    <button class="quick-amount-btn" onclick="setDepositAmount(5000000)">5M</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-secondary" onclick="closeModal('depositModal')">Cancel</button>
+                <button class="modal-btn modal-btn-primary" onclick="confirmDeposit()">Confirm Deposit</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Withdraw Modal -->
+    <div id="withdrawModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>💸 Withdraw Funds</h2>
+                <span class="close" onclick="closeModal('withdrawModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Available Balance: Rp <span id="availableBalance">0</span></label>
+                    <input type="number" id="withdrawAmount" class="form-input" placeholder="Enter amount (Min: 10,000)" min="10000">
+                </div>
+                <div class="quick-amounts">
+                    <button class="quick-amount-btn" onclick="setWithdrawAmount(10000)">10K</button>
+                    <button class="quick-amount-btn" onclick="setWithdrawAmount(50000)">50K</button>
+                    <button class="quick-amount-btn" onclick="setWithdrawAmount(100000)">100K</button>
+                    <button class="quick-amount-btn" onclick="setWithdrawAmount(500000)">500K</button>
+                    <button class="quick-amount-btn" onclick="setWithdrawAmount(1000000)">1M</button>
+                    <button class="quick-amount-btn" onclick="setWithdrawAll()">All</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-secondary" onclick="closeModal('withdrawModal')">Cancel</button>
+                <button class="modal-btn modal-btn-primary" onclick="confirmWithdraw()">Confirm Withdraw</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- History Modal -->
+    <div id="historyModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📜 Game History</h2>
+                <span class="close" onclick="closeModal('historyModal')">&times;</span>
+            </div>
+            <div class="modal-body" style="max-height: 500px; overflow-y: auto;">
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Bet</th>
+                            <th>Result</th>
+                            <th>Win</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyTableBody">
+                        <tr>
+                            <td colspan="4" style="text-align: center; color: #8892b8;">No history yet</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-primary" onclick="closeModal('historyModal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Rules Modal -->
+    <div id="rulesModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📖 Game Rules</h2>
+                <span class="close" onclick="closeModal('rulesModal')">&times;</span>
+            </div>
+            <div class="modal-body" style="max-height: 500px; overflow-y: auto;">
+                <h3 style="color: #ffd700; margin-bottom: 15px;">How to Play</h3>
+                <p style="color: #8892b8; line-height: 1.8; margin-bottom: 20px;">
+                    1. Set your bet amount using the + and - buttons or quick bet options<br>
+                    2. Click the SPIN button to start the game<br>
+                    3. Match 3 symbols to win! The more valuable the symbol, the bigger the win<br>
+                    4. Match 2 symbols for smaller wins<br>
+                    5. Hit the 🍑 jackpot for the MEGA PRIZE!
+                </p>
+                
+                <h3 style="color: #ffd700; margin-bottom: 15px;">Payout Structure</h3>
+                <p style="color: #8892b8; line-height: 1.8; margin-bottom: 20px;">
+                    • 3 Matching Symbols: 3x symbol value<br>
+                    • 2 Matching Symbols: 2x symbol value<br>
+                    • Jackpot Symbol (🍑): Progressive Jackpot + Bonus
+                </p>
+
+                <h3 style="color: #ffd700; margin-bottom: 15px;">Special Features</h3>
+                <p style="color: #8892b8; line-height: 1.8;">
+                    • Auto Spin: Automatically spin multiple times<br>
+                    • Turbo Mode: Faster gameplay experience<br>
+                    • Max Bet: Instantly set maximum bet amount<br>
+                    • Progressive Jackpot: Grows with every spin!
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-primary" onclick="closeModal('rulesModal')">Got it!</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>⚙️ Settings</h2>
+                <span class="close" onclick="closeModal('settingsModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Sound Effects</label>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="modal-btn modal-btn-primary" onclick="toggleSound(true)">ON</button>
+                        <button class="modal-btn modal-btn-secondary" onclick="toggleSound(false)">OFF</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Animation Speed</label>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button class="modal-btn modal-btn-secondary" onclick="setAnimationSpeed('slow')">Slow</button>
+                        <button class="modal-btn modal-btn-primary" onclick="setAnimationSpeed('normal')">Normal</button>
+                        <button class="modal-btn modal-btn-secondary" onclick="setAnimationSpeed('fast')">Fast</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Reset Statistics</label>
+                    <button class="modal-btn modal-btn-secondary" onclick="resetStats()" style="width: 100%; background: linear-gradient(135deg, #f44336 0%, #da190b 100%);">Reset All Stats</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-primary" onclick="closeModal('settingsModal')">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <div class="casino-header">
+        <div class="header-left">
+            <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+            <div class="logo" onclick="showToast('Welcome to YGY Casino!', 'info')">🎰 YGY CASINO</div>
+        </div>
+        <div class="user-info">
+            <div class="user-balance" onclick="openModal('depositModal')">
+                💰 Rp <span id="headerBalance">0</span>
+            </div>
+            <div class="user-avatar" onclick="showToast('Profile coming soon!', 'info')">👤</div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-tabs">
+        <button class="nav-tab active" onclick="switchTab(0)">🎰 Slots</button>
+        <button class="nav-tab" onclick="showToast('Coming Soon!', 'info')">🃏 Table Games</button>
+        <button class="nav-tab" onclick="showToast('Coming Soon!', 'info')">🎲 Live Casino</button>
+        <button class="nav-tab" onclick="showToast('Coming Soon!', 'info')">⚽ Sports</button>
+        <button class="nav-tab" onclick="openModal('historyModal')">📊 Stats</button>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Sidebar Left -->
+        <div class="sidebar-left" id="sidebar">
+            <div class="menu-section">
+                <div class="menu-title">⚡ Quick Actions</div>
+                <div class="menu-item active" onclick="showToast('You are here!', 'info'); closeSidebarOnMobile()">
+                    <span>🎰</span>
+                    <span>Classic Slots</span>
+                </div>
+                <div class="menu-item" onclick="showToast('Coming Soon!', 'info'); closeSidebarOnMobile()">
+                    <span>💎</span>
+                    <span>Mega Jackpot</span>
+                </div>
+                <div class="menu-item" onclick="showToast('Coming Soon!', 'info'); closeSidebarOnMobile()">
+                    <span>🌟</span>
+                    <span>Hot Games</span>
+                </div>
+                <div class="menu-item" onclick="showToast('Coming Soon!', 'info'); closeSidebarOnMobile()">
+                    <span>🆕</span>
+                    <span>New Releases</span>
+                </div>
+            </div>
+
+            <div class="menu-section">
+                <div class="menu-title">💳 Account</div>
+                <div class="menu-item" onclick="openModal('depositModal'); closeSidebarOnMobile()">
+                    <span>💵</span>
+                    <span>Deposit</span>
+                </div>
+                <div class="menu-item" onclick="openModal('withdrawModal'); closeSidebarOnMobile()">
+                    <span>💸</span>
+                    <span>Withdraw</span>
+                </div>
+                <div class="menu-item" onclick="openModal('historyModal'); closeSidebarOnMobile()">
+                    <span>📜</span>
+                    <span>History</span>
+                </div>
+                <div class="menu-item" onclick="openModal('settingsModal'); closeSidebarOnMobile()">
+                    <span>⚙️</span>
+                    <span>Settings</span>
+                </div>
+            </div>
+
+            <div class="menu-section">
+                <div class="menu-title">ℹ️ Info</div>
+                <div class="menu-item" onclick="openModal('rulesModal'); closeSidebarOnMobile()">
+                    <span>📖</span>
+                    <span>Game Rules</span>
+                </div>
+                <div class="menu-item" onclick="showToast('24/7 Support: support@ygycasino.com', 'info'); closeSidebarOnMobile()">
+                    <span>💬</span>
+                    <span>Support</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Area -->
+        <div class="game-area">
+            <div class="game-header">
+                <div class="game-title">🎰 PREMIUM SLOTS</div>
+                <button class="game-info-btn" onclick="openModal('rulesModal')">ℹ️ Info</button>
+            </div>
+
+            <div class="jackpot-banner" onclick="showToast('Progressive Jackpot increases with every spin!', 'info')">
+                <div style="font-size: 0.8em; margin-bottom: 5px;">🏆 PROGRESSIVE JACKPOT 🏆</div>
+                <div class="jackpot-amount">Rp <span id="progressiveJackpot">50,000,000</span></div>
+            </div>
+
+            <div class="slot-container">
+                <div class="slot-display">
+                    <div class="slot-reel" id="slot1">🍒</div>
+                    <div class="slot-reel" id="slot2">🍋</div>
+                    <div class="slot-reel" id="slot3">🍉</div>
+                </div>
+            </div>
+
+            <div class="result-display" id="result">
+                Set your bet and press SPIN to start! 🎰
+            </div>
+
+            <div class="bet-controls">
+                <div class="bet-row">
+                    <span class="bet-label">💰 Total Bet</span>
+                    <div class="bet-amount">
+                        <button class="bet-button" onclick="decreaseBet()">−</button>
+                        <input type="text" class="bet-input" id="betAmount" value="1,000" readonly>
+                        <button class="bet-button" onclick="increaseBet()">+</button>
+                    </div>
+                </div>
+                <div class="preset-bets">
+                    <button class="preset-bet" onclick="setBet(1000)">1K</button>
+                    <button class="preset-bet" onclick="setBet(5000)">5K</button>
+                    <button class="preset-bet" onclick="setBet(10000)">10K</button>
+                    <button class="preset-bet" onclick="setBet(50000)">50K</button>
+                    <button class="preset-bet" onclick="setBet(100000)">100K</button>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="action-btn btn-spin" id="spinBtn" onclick="spin()">
+                    🎰 SPIN
+                </button>
+                <button class="action-btn btn-stop" id="stopBtn" onclick="stopAutoSpin()" style="display: none;">
+                    🛑 STOP
+                </button>
+                <button class="action-btn btn-auto" id="autoBtn" onclick="toggleAutoSpin()">
+                    🔄 AUTO
+                </button>
+                <button class="action-btn btn-turbo" id="turboBtn" onclick="toggleTurbo()">
+                    ⚡ TURBO
+                </button>
+                <button class="action-btn btn-max" onclick="maxBet()">
+                    💎 MAX
+                </button>
+            </div>
+
+            <div class="auto-spin-panel" id="autoSpinPanel">
+                <div class="panel-title">🔄 Select Auto Spins</div>
+                <div class="auto-spin-grid">
+                    <button class="auto-spin-option" onclick="startAutoSpin(10)">10X</button>
+                    <button class="auto-spin-option" onclick="startAutoSpin(25)">25X</button>
+                    <button class="auto-spin-option" onclick="startAutoSpin(50)">50X</button>
+                    <button class="auto-spin-option" onclick="startAutoSpin(100)">100X</button>
+                    <button class="auto-spin-option" onclick="startAutoSpin(250)">250X</button>
+                    <button class="auto-spin-option" onclick="startAutoSpin(500)">500X</button>
+                    <button class="auto-spin-option" onclick="startAutoSpin(1000)">1000X</button>
+                    <button class="auto-spin-option" onclick="startAutoSpin(9999)">∞</button>
+                </div>
+            </div>
+
+            <div class="paytable">
+                <div class="panel-title">💎 Paytable - Win Multipliers</div>
+                <div class="paytable-grid">
+                    <div class="paytable-item">
+                        <div class="paytable-symbol">🍑</div>
+                        <div class="paytable-value">JACKPOT<br>10,000x</div>
+                    </div>
+                    <div class="paytable-item">
+                        <div class="paytable-symbol">🍇</div>
+                        <div class="paytable-value">3,000x</div>
+                    </div>
+                    <div class="paytable-item">
+                        <div class="paytable-symbol">🍉</div>
+                        <div class="paytable-value">2,000x</div>
+                    </div>
+                    <div class="paytable-item">
+                        <div class="paytable-symbol">🍍</div>
+                        <div class="paytable-value">2,500x</div>
+                    </div>
+                    <div class="paytable-item">
+                        <div class="paytable-symbol">🍓</div>
+                        <div class="paytable-value">1,500x</div>
+                    </div>
+                    <div class="paytable-item">
+                        <div class="paytable-symbol">🍒</div>
+                        <div class="paytable-value">1,000x</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar Right -->
+        <div class="sidebar-right">
+            <div class="stats-panel">
+                <div class="panel-title">📊 Game Statistics</div>
+                <div class="stat-item">
+                    <span class="stat-label">Total Spins</span>
+                    <span class="stat-value" id="totalSpins">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Total Wins</span>
+                    <span class="stat-value" id="totalWins">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Win Rate</span>
+                    <span class="stat-value" id="winRate">0%</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Biggest Win</span>
+                    <span class="stat-value" id="biggestWin">Rp 0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Jackpots Hit</span>
+                    <span class="stat-value" id="jackpotCount">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Current Streak</span>
+                    <span class="stat-value" id="currentStreak">0</span>
+                </div>
+            </div>
+
+            <div class="recent-wins">
+                <div class="panel-title">🏆 Recent Wins</div>
+                <div id="recentWinsList">
+                    <div style="text-align: center; color: #8892b8; padding: 20px;">
+                        No wins yet. Start spinning!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const symbols = [
+            "🍒", "🍋", "🍉", "🍇", "🍓", "🍍", "🍏", "🍆", "🍈", "🥭", "🍑",
+            "🍎", "🍊", "🍐", "🍔", "🍕", "🍲", "🍜", "🍱", "🍣", "🍙", "🍚", 
+            "🍛", "🍝", "🍠", "🍢", "🍥", "🍘", "🍿", "🥟", "🥠", "🥡"
+        ];
+
+        const values = {
+            "🍒": 1000, "🍋": 500, "🍉": 2000, "🍇": 3000, "🍓": 1500,
+            "🍍": 2500, "🍏": 800, "🍆": 1200, "🍈": 1800, "🥭": 2200,
+            "🍑": 10000, "🍎": 600, "🍊": 700, "🍐": 800, "🍔": 1000,
+            "🍕": 1100, "🍲": 1200, "🍜": 1300, "🍱": 1400, "🍣": 1500,
+            "🍛": 1600, "🍝": 1700, "🍠": 1800, "🍢": 1900, "🍥": 2000,
+            "🍘": 2100, "🍿": 2200, "🥟": 2300, "🥠": 2400, "🥡": 2500
+        };
+
+        let balance = 0;
+        let spinning = false;
+        let currentBet = 1000;
+        let totalSpins = 0;
+        let totalWins = 0;
+        let jackpotCount = 0;
+        let biggestWin = 0;
+        let currentStreak = 0;
+        let autoSpinCount = 0;
+        let turboMode = false;
+        let recentWins = [];
+        let progressiveJackpot = 50000000;
+        let gameHistory = [];
+        let soundEnabled = true;
+        let animationSpeed = 'normal';
+
+        // Sidebar Toggle Functions
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        function closeSidebarOnMobile() {
+            if (window.innerWidth <= 1400) {
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('sidebarOverlay');
+                
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+            }
+        }
+
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.style.display = 'block';
+            
+            if (modalId === 'withdrawModal') {
+                document.getElementById('availableBalance').innerText = balance.toLocaleString();
+            }
+            
+            if (modalId === 'historyModal') {
+                updateHistoryTable();
+            }
+
+            closeSidebarOnMobile();
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerText = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'slideInRight 0.3s ease reverse';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function setDepositAmount(amount) {
+            document.getElementById('depositAmount').value = amount;
+        }
+
+        function confirmDeposit() {
+            const amount = parseInt(document.getElementById('depositAmount').value);
+            
+            if (isNaN(amount) || amount < 10000) {
+                showToast('❌ Minimal deposit Rp 10.000', 'error');
+                return;
+            }
+            
+            updateBalance(amount);
+            closeModal('depositModal');
+            showToast(`✅ Deposit berhasil! +Rp ${amount.toLocaleString()}`, 'success');
+            document.getElementById('depositAmount').value = '';
+        }
+
+        function setWithdrawAmount(amount) {
+            if (amount <= balance) {
+                document.getElementById('withdrawAmount').value = amount;
+            } else {
+                showToast('❌ Saldo tidak mencukupi', 'error');
+            }
+        }
+
+        function setWithdrawAll() {
+            document.getElementById('withdrawAmount').value = balance;
+        }
+
+        function confirmWithdraw() {
+            const amount = parseInt(document.getElementById('withdrawAmount').value);
+            
+            if (isNaN(amount) || amount < 10000) {
+                showToast('❌ Minimal withdraw Rp 10.000', 'error');
+                return;
+            }
+            
+            if (amount > balance) {
+                showToast('❌ Saldo tidak mencukupi', 'error');
+                return;
+            }
+            
+            updateBalance(-amount);
+            closeModal('withdrawModal');
+            showToast(`✅ Withdraw berhasil! -Rp ${amount.toLocaleString()}`, 'success');
+            document.getElementById('withdrawAmount').value = '';
+        }
+
+        function updateBalance(amount) {
+            balance += amount;
+            document.getElementById("headerBalance").innerText = balance.toLocaleString();
+        }
+
+        function updateStats() {
+            document.getElementById("totalSpins").innerText = totalSpins;
+            document.getElementById("totalWins").innerText = totalWins;
+            const winRate = totalSpins > 0 ? ((totalWins / totalSpins) * 100).toFixed(1) : 0;
+            document.getElementById("winRate").innerText = winRate + "%";
+            document.getElementById("biggestWin").innerText = "Rp " + biggestWin.toLocaleString();
+            document.getElementById("jackpotCount").innerText = jackpotCount;
+            document.getElementById("currentStreak").innerText = currentStreak;
+        }
+
+        function resetStats() {
+            if (confirm('⚠️ Are you sure you want to reset all statistics?')) {
+                totalSpins = 0;
+                totalWins = 0;
+                jackpotCount = 0;
+                biggestWin = 0;
+                currentStreak = 0;
+                recentWins = [];
+                gameHistory = [];
+                updateStats();
+                document.getElementById("recentWinsList").innerHTML = '<div style="text-align: center; color: #8892b8; padding: 20px;">No wins yet. Start spinning!</div>';
+                showToast('✅ Statistics reset successfully', 'success');
+                closeModal('settingsModal');
+            }
+        }
+
+        function addRecentWin(amount, type) {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString();
+            recentWins.unshift({ amount, type, time: timeStr });
+            if (recentWins.length > 10) recentWins.pop();
+            
+            const winsList = document.getElementById("recentWinsList");
+            winsList.innerHTML = recentWins.map(win => `
+                <div class="win-item">
+                    <div class="win-amount">${win.type} +Rp ${win.amount.toLocaleString()}</div>
+                    <div class="win-time">${win.time}</div>
+                </div>
+            `).join('');
+        }
+
+        function addToHistory(bet, result, winAmount) {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString();
+            gameHistory.unshift({
+                time: timeStr,
+                bet: bet,
+                result: result,
+                win: winAmount,
+                status: winAmount > 0 ? 'win' : 'lose'
+            });
+            if (gameHistory.length > 50) gameHistory.pop();
+        }
+
+        function updateHistoryTable() {
+            const tbody = document.getElementById('historyTableBody');
+            if (gameHistory.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #8892b8;">No history yet</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = gameHistory.map(h => `
+                <tr>
+                    <td>${h.time}</td>
+                    <td>Rp ${h.bet.toLocaleString()}</td>
+                    <td>${h.result}</td>
+                    <td class="${h.status === 'win' ? 'status-win' : 'status-lose'}">
+                        ${h.status === 'win' ? '+' : ''}Rp ${h.win.toLocaleString()}
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function updateProgressiveJackpot() {
+            progressiveJackpot += Math.floor(currentBet * 0.01);
+            document.getElementById("progressiveJackpot").innerText = progressiveJackpot.toLocaleString();
+        }
+
+        setInterval(() => {
+            progressiveJackpot += Math.floor(Math.random() * 1000) + 100;
+            document.getElementById("progressiveJackpot").innerText = progressiveJackpot.toLocaleString();
+        }, 3000);
+
+        function getRandomSymbol() {
+            return symbols[Math.floor(Math.random() * symbols.length)];
+        }
+
+        function setBet(amount) {
+            currentBet = amount;
+            document.getElementById("betAmount").value = amount.toLocaleString();
+            showToast(`Bet set to Rp ${amount.toLocaleString()}`, 'info');
+        }
+
+        function increaseBet() {
+            if (currentBet < 100000) {
+                currentBet += 1000;
+                document.getElementById("betAmount").value = currentBet.toLocaleString();
+            } else {
+                showToast('Maximum bet reached', 'info');
+            }
+        }
+
+        function decreaseBet() {
+            if (currentBet > 1000) {
+                currentBet -= 1000;
+                document.getElementById("betAmount").value = currentBet.toLocaleString();
+            } else {
+                showToast('Minimum bet reached', 'info');
+            }
+        }
+
+        function maxBet() {
+            currentBet = 100000;
+            document.getElementById("betAmount").value = currentBet.toLocaleString();
+            showToast('MAX BET activated!', 'info');
+        }
+
+        function toggleAutoSpin() {
+            const panel = document.getElementById("autoSpinPanel");
+            if (panel.classList.contains('show')) {
+                panel.classList.remove('show');
+            } else {
+                panel.classList.add('show');
+            }
+        }
+
+        function startAutoSpin(count) {
+            if (spinning) return;
+            
+            const totalCost = count === 9999 ? currentBet * 100 : currentBet * count;
+            if (balance < totalCost && count !== 9999) {
+                showToast(`⚠️ Saldo tidak cukup untuk ${count}X spin!`, 'error');
+                return;
+            }
+            
+            autoSpinCount = count;
+            updateAutoSpinButtons();
+            updateSpinButtons();
+            document.getElementById("autoSpinPanel").classList.remove('show');
+            showToast(`🔄 Auto Spin ${count}X activated!`, 'success');
+            spin();
+        }
+
+        function stopAutoSpin() {
+            autoSpinCount = 0;
+            updateAutoSpinButtons();
+            updateSpinButtons();
+            showToast('🛑 Auto Spin stopped!', 'info');
+        }
+
+        function updateSpinButtons() {
+            const spinBtn = document.getElementById('spinBtn');
+            const stopBtn = document.getElementById('stopBtn');
+            const autoBtn = document.getElementById('autoBtn');
+            
+            if (autoSpinCount > 0) {
+                spinBtn.style.display = 'none';
+                stopBtn.style.display = 'block';
+                autoBtn.style.pointerEvents = 'none';
+                autoBtn.style.opacity = '0.5';
+            } else {
+                spinBtn.style.display = 'block';
+                stopBtn.style.display = 'none';
+                autoBtn.style.pointerEvents = 'auto';
+                autoBtn.style.opacity = '1';
+            }
+        }
+
+        function updateAutoSpinButtons() {
+            const buttons = document.querySelectorAll('.auto-spin-option');
+            buttons.forEach(btn => {
+                if (autoSpinCount > 0) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        function toggleTurbo() {
+            turboMode = !turboMode;
+            const turboBtn = document.getElementById('turboBtn');
+            
+            if (turboMode) {
+                turboBtn.classList.add('active');
+                showToast('⚡ Turbo Mode ON!', 'success');
+            } else {
+                turboBtn.classList.remove('active');
+                showToast('🐢 Normal Mode', 'info');
+            }
+        }
+
+        function showWinOverlay(text) {
+            const overlay = document.createElement('div');
+            overlay.className = 'win-overlay';
+            overlay.innerText = text;
+            document.body.appendChild(overlay);
+            setTimeout(() => overlay.remove(), 1500);
+        }
+
+        function spin() {
+            if (spinning) return;
+            
+            if (balance < currentBet) {
+                showToast("⚠️ Saldo tidak cukup! Silakan deposit.", 'error');
+                autoSpinCount = 0;
+                updateAutoSpinButtons();
+                updateSpinButtons();
+                return;
+            }
+
+            spinning = true;
+            updateBalance(-currentBet);
+            totalSpins++;
+            updateStats();
+            updateProgressiveJackpot();
+
+            const slot1 = document.getElementById("slot1");
+            const slot2 = document.getElementById("slot2");
+            const slot3 = document.getElementById("slot3");
+            const result = document.getElementById("result");
+            const spinBtn = document.getElementById("spinBtn");
+
+            spinBtn.disabled = true;
+            spinBtn.innerHTML = '<span class="loading"></span> SPINNING...';
+            result.innerText = "🎰 Spinning...";
+            result.className = "result-display";
+
+            slot1.classList.add('spinning');
+            slot2.classList.add('spinning');
+            slot3.classList.add('spinning');
+
+            slot1.classList.remove('winning');
+            slot2.classList.remove('winning');
+            slot3.classList.remove('winning');
+
+            let spins = 3;
+            const spinDuration = turboMode ? 800 : 1500;
+            const delayBetweenReels = turboMode ? 200 : 400;
+
+            function animateSpin(slot, delay) {
+                setTimeout(() => {
+                    const interval = setInterval(() => {
+                        slot.innerText = getRandomSymbol();
+                    }, 50);
+                    
+                    setTimeout(() => {
+                        clearInterval(interval);
+                        slot.innerText = getRandomSymbol();
+                        slot.classList.remove('spinning');
+                        spins--;
+                        
+                        if (spins === 0) {
+                            determineResult();
+                            spinning = false;
+                            spinBtn.disabled = false;
+                            spinBtn.innerHTML = '🎰 SPIN';
+                            
+                            if (autoSpinCount > 0) {
+                                autoSpinCount--;
+                                updateAutoSpinButtons();
+                                if (autoSpinCount > 0 && balance >= currentBet) {
+                                    setTimeout(spin, turboMode ? 500 : 1000);
+                                } else {
+                                    if (balance < currentBet) {
+                                        showToast('⚠️ Saldo habis! Auto spin stopped.', 'error');
+                                    } else {
+                                        showToast('✅ Auto spin selesai!', 'success');
+                                    }
+                                    autoSpinCount = 0;
+                                    updateAutoSpinButtons();
+                                    updateSpinButtons();
+                                }
+                            }
+                        }
+                    }, spinDuration);
+                }, delay);
+            }
+
+            function determineResult() {
+                let symbol1 = slot1.innerText;
+                let symbol2 = slot2.innerText;
+                let symbol3 = slot3.innerText;
+                let winAmount = 0;
+                let resultSymbols = `${symbol1} ${symbol2} ${symbol3}`;
+                const jackpotChance = 0.08;
+
+                if (Math.random() < jackpotChance) {
+                    symbol1 = symbol2 = symbol3 = "🍑";
+                    resultSymbols = `${symbol1} ${symbol2} ${symbol3}`;
+                    winAmount = progressiveJackpot;
+                    result.innerHTML = "💰🎉 PROGRESSIVE JACKPOT! 🎉💰";
+                    result.className = "result-display jackpot";
+                    jackpotCount++;
+                    totalWins++;
+                    currentStreak++;
+                    
+                    slot1.classList.add('winning');
+                    slot2.classList.add('winning');
+                    slot3.classList.add('winning');
+                    
+                    showWinOverlay('💎 JACKPOT! 💎');
+                    addRecentWin(winAmount, "JACKPOT");
+                    showToast(`🎊 JACKPOT! You won Rp ${winAmount.toLocaleString()}!`, 'success');
+                    
+                    progressiveJackpot = 50000000;
+                    
+                    setTimeout(() => {
+                        slot1.classList.remove('winning');
+                        slot2.classList.remove('winning');
+                        slot3.classList.remove('winning');
+                    }, 3000);
+                } else {
+                    if (symbol1 === symbol2 && symbol2 === symbol3) {
+                        winAmount = values[symbol1] * 3;
+                        totalWins++;
+                        currentStreak++;
+                        showWinOverlay('🎊 BIG WIN! 🎊');
+                        addRecentWin(winAmount, "3 OF A KIND");
+                        
+                        slot1.classList.add('winning');
+                        slot2.classList.add('winning');
+                        slot3.classList.add('winning');
+                        
+                        setTimeout(() => {
+                            slot1.classList.remove('winning');
+                            slot2.classList.remove('winning');
+                            slot3.classList.remove('winning');
+                        }, 2000);
+                    } else if (symbol1 === symbol2 || symbol2 === symbol3 || symbol1 === symbol3) {
+                        if (symbol1 === symbol2) {
+                            winAmount += values[symbol1] * 2;
+                            slot1.classList.add('winning');
+                            slot2.classList.add('winning');
+                        }
+                        if (symbol2 === symbol3) {
+                            winAmount += values[symbol2] * 2;
+                            slot2.classList.add('winning');
+                            slot3.classList.add('winning');
+                        }
+                        if (symbol1 === symbol3) {
+                            winAmount += values[symbol1] * 2;
+                            slot1.classList.add('winning');
+                            slot3.classList.add('winning');
+                        }
+                        totalWins++;
+                        currentStreak++;
+                        showWinOverlay('✨ WIN! ✨');
+                        addRecentWin(winAmount, "PAIR");
+                        
+                        setTimeout(() => {
+                            slot1.classList.remove('winning');
+                            slot2.classList.remove('winning');
+                            slot3.classList.remove('winning');
+                        }, 1500);
+                    } else {
+                        currentStreak = 0;
+                    }
+                }
+
+                if (winAmount > 0) {
+                    if (winAmount > biggestWin) {
+                        biggestWin = winAmount;
+                    }
+                    result.innerHTML = `🎉 CONGRATULATIONS! 🎉<br><span style="font-size: 1.3em;">+Rp ${winAmount.toLocaleString()}</span>`;
+                    updateBalance(winAmount);
+                } else {
+                    result.innerText = "Try Again! Your luck is coming! 🍀";
+                }
+
+                slot1.innerText = symbol1;
+                slot2.innerText = symbol2;
+                slot3.innerText = symbol3;
+                
+                addToHistory(currentBet, resultSymbols, winAmount);
+                updateStats();
+            }
+
+            animateSpin(slot1, 0);
+            animateSpin(slot2, delayBetweenReels);
+            animateSpin(slot3, delayBetweenReels * 2);
+        }
+
+        function switchTab(index) {
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach((tab, i) => {
+                if (i === index) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+        }
+
+        function toggleSound(enabled) {
+            soundEnabled = enabled;
+            showToast(`🔊 Sound ${enabled ? 'ON' : 'OFF'}`, 'info');
+        }
+
+        function setAnimationSpeed(speed) {
+            animationSpeed = speed;
+            showToast(`Animation speed: ${speed}`, 'info');
+        }
+
+        updateStats();
+        
+        setTimeout(() => {
+            showToast('🎰 Welcome to YGY Casino! Good luck!', 'success');
+        }, 1000);
+    </script>
+</body>
+</html>
